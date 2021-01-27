@@ -1,4 +1,4 @@
-use std::io::Stdout;
+use std::io::{Stdout, Write };
 use crate::frame::Frame;
 use crossterm::QueueableCommand;
 use crossterm::style::{ SetBackgroundColor, Color }; 
@@ -26,5 +26,7 @@ pub fn render(stdout: &mut Stdout, last_frame: &Frame, current_frame: &Frame, fo
             }
         }
     }
+
+    stdout.flush().unwrap();
 
 }
