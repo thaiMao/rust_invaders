@@ -8,6 +8,7 @@ use crossterm::event::{Event, KeyCode };
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
 use rust_invaders::{ frame, render };
+use rust_invaders::frame::new_frame;
 
 fn main() -> Result<(), Box<dyn Error>>  {
     let mut audio = Audio::new();
@@ -55,6 +56,9 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
     // Game Loop
     'gameloop: loop {
+        // Per-frame init
+        let curr_frame = new_frame();
+
         // Input
         while event::poll(Duration::default())? {
             if let Event::Key(key_event) = event::read()? {
@@ -66,8 +70,18 @@ fn main() -> Result<(), Box<dyn Error>>  {
                     _ => {}
                 }
             }
-
         }
+
+        // Draw & render
+        /* let _ is used instead of unwrap() (which would crash the program)
+        becuase the gameloop will start before the "render" thread is spawned
+        and rather than erroring and crashing a let _ is used to ignore the error
+        */ 
+        let _ = render_tx.send(curr_frame);
+
+        // game loop is much faster render loop
+        thread::sleep(Duration::from_millis(1));
+
     }
 
     // Cleanup
