@@ -3,6 +3,7 @@ use std::error::Error;
 use std::time::{ Duration };
 use rusty_audio::Audio;
 use crossterm::{ terminal, ExecutableCommand, event };
+use crossterm::event::{Event};
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
 
@@ -29,7 +30,9 @@ fn main() -> Result<(), Box<dyn Error>>  {
     'gameloop: loop {
         // Input
         while event::poll(Duration::default())? {
-            
+            if let Event::Key(key_event) = event::read()? {
+
+            }
 
         }
     }
