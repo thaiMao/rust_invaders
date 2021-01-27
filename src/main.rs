@@ -1,5 +1,6 @@
-use std::error::Error;
+use std::{ error::Error, io};
 use rusty_audio::Audio;
+
 
 fn main() -> Result<(), Box<dyn Error>> {
     let mut audio = Audio::new();
@@ -11,6 +12,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     audio.add("win", "win.wav");
 
     audio.play("startup");
+
+    // Terminal
+    let mut stdout = io::stdout();
 
     // Cleanup
     audio.wait();
