@@ -18,3 +18,9 @@ pub fn new_frame() -> Frame {
 
     cols
 }
+
+// Everything we need to see, needs to draw itself onto the frame
+
+pub trait Drawable {
+    fn draw(&self, frame: &mut Frame);
+}
