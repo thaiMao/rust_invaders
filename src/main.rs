@@ -14,5 +14,6 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Cleanup
     audio.wait();
+    Ok(())
 
 }
