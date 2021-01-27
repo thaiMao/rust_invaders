@@ -85,6 +85,8 @@ fn main() -> Result<(), Box<dyn Error>>  {
     }
 
     // Cleanup
+    drop(render_tx);
+    render_handle.join().unwrap();
     audio.wait();
     stdout.execute(Show)?;
     stdout.execute(LeaveAlternateScreen)?;
