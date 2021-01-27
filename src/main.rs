@@ -1,4 +1,5 @@
-use std::{ io };
+use std::{ io, thread };
+use std::sync::mpsc;
 use std::error::Error;
 use std::time::{ Duration };
 use rusty_audio::Audio;
@@ -6,7 +7,7 @@ use crossterm::{ terminal, ExecutableCommand, event };
 use crossterm::event::{Event, KeyCode };
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
-
+use rust_invaders::{ frame, render };
 
 fn main() -> Result<(), Box<dyn Error>>  {
     let mut audio = Audio::new();
@@ -25,6 +26,32 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
     stdout.execute(EnterAlternateScreen)?;
     stdout.execute(Hide)?;
+
+    // Render Loop in a separate thread
+    // set up a channel to communicate with thread
+    // use cross beam channel for higher performance
+    // using mpsc channels for demo purposes
+    let (render_tx, render_rx) = mpsc::channel();
+    // make a thread
+    let render_handle = thread::spawn(move || {
+        let mut last_frame = frame::new_frame();
+        let mut stdout = io::stdout();
+        render::render(&mut stdout, &last_frame, &last_frame, true);
+
+        loop {
+            let curr_frame = match render_rx.recv() {
+                Ok(x) => x,
+                Err(_) => break,
+            };
+            render::render(&mut stdout, &last_frame, &curr_frame, false);
+            last_frame = curr_frame;
+        }
+
+        
+    });
+
+
+
 
     // Game Loop
     'gameloop: loop {
