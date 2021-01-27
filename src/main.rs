@@ -1,5 +1,6 @@
 use std::{ error::Error, io};
 use rusty_audio::Audio;
+use crossterm::terminal;
 
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -15,7 +16,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     // Terminal
     let mut stdout = io::stdout();
-
+    terminal::enable_raw_mode()?;
     // Cleanup
     audio.wait();
     Ok(())
