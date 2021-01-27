@@ -1,4 +1,4 @@
-use crate::{ NUM_COLS, NUM_ROWS };
+use crate::{ NUM_COLS, NUM_ROWS, frame::Drawable, frame::Frame };
 
 pub struct Player {
     x: usize,
@@ -23,5 +23,11 @@ impl Player {
         if self.x < NUM_COLS - 1 {
             self.x +=1;
         }
+    }
+}
+
+impl Drawable for Player {
+    fn draw(&self, frame: &mut Frame) {
+        frame[self.x][self.y] = "A";
     }
 }
