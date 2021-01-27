@@ -10,5 +10,9 @@ fn main() -> Result<(), Box<dyn Error>> {
     audio.add("startup", "startup.wav");
     audio.add("win", "win.wav");
 
-    audio.play();
+    audio.play("startup");
+
+    // Cleanup
+    audio.wait();
+
 }
