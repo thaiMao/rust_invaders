@@ -1,7 +1,8 @@
 use std::{ io };
 use std::error::Error;
+use std::time::{ Duration };
 use rusty_audio::Audio;
-use crossterm::{ terminal, ExecutableCommand };
+use crossterm::{ terminal, ExecutableCommand, event };
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
 
@@ -27,7 +28,10 @@ fn main() -> Result<(), Box<dyn Error>>  {
     // Game Loop
     'gameloop: loop {
         // Input
-        
+        while event::poll(Duration::default())? {
+            
+
+        }
     }
 
     // Cleanup
