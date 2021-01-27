@@ -24,6 +24,12 @@ fn main() -> Result<(), Box<dyn Error>>  {
     stdout.execute(EnterAlternateScreen)?;
     stdout.execute(Hide)?;
 
+    // Game Loop
+    'gameloop: loop {
+        // Input
+        
+    }
+
     // Cleanup
     audio.wait();
     stdout.execute(Show)?;
