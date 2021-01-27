@@ -9,4 +9,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     audio.add("pew", "pew.wav");
     audio.add("startup", "startup.wav");
     audio.add("win", "win.wav");
+
+    audio.play();
 }
