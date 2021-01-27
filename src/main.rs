@@ -7,7 +7,8 @@ use crossterm::{ terminal, ExecutableCommand, event };
 use crossterm::event::{Event, KeyCode };
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
-use rust_invaders::{ frame, render };
+use rust_invaders::{ frame, render, player::Player };
+use rust_invaders::frame::Drawable;
 use rust_invaders::frame::new_frame;
 
 fn main() -> Result<(), Box<dyn Error>>  {
@@ -53,16 +54,18 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
 
 
-
+    let mut player = Player::new();
     // Game Loop
     'gameloop: loop {
         // Per-frame init
-        let curr_frame = new_frame();
+        let mut curr_frame = new_frame();
 
         // Input
         while event::poll(Duration::default())? {
             if let Event::Key(key_event) = event::read()? {
                 match key_event.code {
+                    KeyCode::Right => player.move_right(),
+                    KeyCode::Left => player.move_left(),
                     KeyCode::Esc | KeyCode::Char('q') => {
                         audio.play("lose");
                         break 'gameloop;
@@ -73,6 +76,8 @@ fn main() -> Result<(), Box<dyn Error>>  {
         }
 
         // Draw & render
+        player.draw(&mut curr_frame);
+
         /* let _ is used instead of unwrap() (which would crash the program)
         becuase the gameloop will start before the "render" thread is spawned
         and rather than erroring and crashing a let _ is used to ignore the error
