@@ -2,7 +2,7 @@ use rusty_time::timer::Timer;
 use std::time::Duration;
 use crate::frame::{ Drawable, Frame };
 
-struct Shot {
+pub struct Shot {
     pub x: usize,
     pub y: usize,
     pub exploding: bool,
