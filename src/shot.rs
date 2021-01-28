@@ -23,8 +23,15 @@ impl Shot {
 
         // update timer to make timer start counting down by delta amount
         self.timer.update(delta);
-        if self.timer.ready && !self.exploding {
 
+        // only move if timer is ready and not exploding
+        if self.timer.ready && !self.exploding {
+            // if we haven't reached the top of the screen, we can move upwards
+            if self.y > 0 {
+                self.y -= 1;
+            }
+
+            self.timer.reset();
         }
     }
 }
