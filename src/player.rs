@@ -41,6 +41,13 @@ impl Player {
         for shot in self.shots.iter_mut() {
             shot.update(delta);
         }
+
+        // clean up shot when it has reached the top or has exploded
+        // retain the shot ONLY when it it NOT dead
+        // retain takes a closure and applies that closure to
+        // every item in the self.shots vector,
+        // and if it returns true, then it keeps that element/shot
+        self.shots.retain(|shot| { !shot.dead() });
     }
 }
 
