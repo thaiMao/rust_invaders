@@ -1,5 +1,6 @@
 use rusty_time::timer::Timer;
 use crate::{ NUM_COLS, NUM_ROWS };
+use std::time::Duration;
 
 pub struct Invader {
     pub x: usize,
@@ -26,7 +27,7 @@ impl Invaders {
                     && (y % 2 == 0) { // modulo to space between each invader, only on even cols and rows
                         
                         army.push(Invader { x, y }); // verbose syntax here instead of new as only instantiated here
-                        
+
 
                     }
             }
@@ -37,5 +38,25 @@ impl Invaders {
             move_timer: Timer::from_millis(2000),
             direction: 1, 
         }
+    }
+
+    pub fn update(&mut self, delta: Duration) -> bool {
+        self.move_timer.update(delta);
+
+        if self.move_timer.ready {
+            self.move_timer.reset();
+
+            let mut move_downwards = false;
+
+            if self.direction == -1 { // if direction is left
+
+                // iter on vec - immutable iterator
+                let min_x = self.army.iter().map(|invader| {invader.x}).min().unwrap_or(0);
+
+            }
+            return true;
+        }
+
+        false
     }
 }
