@@ -64,6 +64,11 @@ fn main() -> Result<(), Box<dyn Error>>  {
         while event::poll(Duration::default())? {
             if let Event::Key(key_event) = event::read()? {
                 match key_event.code {
+                    KeyCode::Char(' ') | KeyCode::Enter => {
+                        if player.shoot() {
+                            audio.play("pew");
+                        }
+                    },
                     KeyCode::Right => player.move_right(),
                     KeyCode::Left => player.move_left(),
                     KeyCode::Esc | KeyCode::Char('q') => {
