@@ -1,4 +1,5 @@
 use crate::{ NUM_COLS, NUM_ROWS, frame::Drawable, frame::Frame, shot::Shot };
+use std::time::Duration;
 
 pub struct Player {
     x: usize,
@@ -33,6 +34,12 @@ impl Player {
             true
         } else {
             false
+        }
+    }
+
+    pub fn update(&mut self, delta: Duration) {
+        for shot in self.shots.iter_mut() {
+            shot.update(delta);
         }
     }
 }
