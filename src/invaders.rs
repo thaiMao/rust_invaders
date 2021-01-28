@@ -92,6 +92,10 @@ impl Invaders {
     pub fn all_killed(&self) -> bool {
         self.army.is_empty()
     }
+
+    pub fn reached_bottom(&self) -> bool {
+        self.army.iter().map(|invader| { invader.y }).max().unwrap_or(0) >= NUM_ROWS - 1
+    }
 }
 
 impl Drawable for Invaders {
