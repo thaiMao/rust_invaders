@@ -73,11 +73,16 @@ impl Invaders {
                 let new_duration = max(self.move_timer.duration.as_millis() - 250, 250);
                 self.move_timer = Timer::from_millis(new_duration as u64);
 
-                
+                for invader in self.army.iter_mut() {
+                    invader.y += 1; // move downwards
+                }
 
             } else {
-
+                for invader in self.army.iter_mut() {
+                    invader.x = ((invader.x as i32) + self.direction) as usize;
+                }
             }
+
             return true;
         }
 
