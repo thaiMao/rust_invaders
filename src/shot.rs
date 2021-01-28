@@ -18,4 +18,13 @@ impl Shot {
         }
     }
 
+
+    pub fn update(&mut self, delta: Duration) {
+
+        // update timer to make timer start counting down by delta amount
+        self.timer.update(delta);
+        if self.timer.ready && !self.exploding {
+
+        }
+    }
 }
