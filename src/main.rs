@@ -1,7 +1,7 @@
 use std::{ io, thread };
 use std::sync::mpsc;
 use std::error::Error;
-use std::time::{ Duration };
+use std::time::{ Duration, Instant };
 use rusty_audio::Audio;
 use crossterm::{ terminal, ExecutableCommand, event };
 use crossterm::event::{Event, KeyCode };
@@ -55,9 +55,12 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
 
     let mut player = Player::new();
+    let mut instant = Instant::now();
     // Game Loop
     'gameloop: loop {
         // Per-frame init
+        let delta = instant.elapsed();  // elapsed time since it began 
+        instant = Instant::now(); // delta will be the exact time taken to go around the game loop
         let mut curr_frame = new_frame();
 
         // Input
@@ -79,6 +82,10 @@ fn main() -> Result<(), Box<dyn Error>>  {
                 }
             }
         }
+
+        // Updates
+        player.update(delta);
+
 
         // Draw & render
         player.draw(&mut curr_frame);
