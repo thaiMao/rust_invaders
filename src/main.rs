@@ -7,7 +7,7 @@ use crossterm::{ terminal, ExecutableCommand, event };
 use crossterm::event::{Event, KeyCode };
 use crossterm::terminal::{ EnterAlternateScreen, LeaveAlternateScreen };
 use crossterm::cursor::{ Hide, Show };
-use rust_invaders::{ frame, render, player::Player };
+use rust_invaders::{ frame, render, player::Player, invaders::Invaders };
 use rust_invaders::frame::Drawable;
 use rust_invaders::frame::new_frame;
 
@@ -56,6 +56,7 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
     let mut player = Player::new();
     let mut instant = Instant::now();
+    let mut invaders = Invaders::new();
     // Game Loop
     'gameloop: loop {
         // Per-frame init
@@ -85,6 +86,10 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
         // Updates
         player.update(delta);
+
+        if invaders.update(delta) {
+            audio.play("move");
+        }
 
 
         // Draw & render
