@@ -93,7 +93,21 @@ fn main() -> Result<(), Box<dyn Error>>  {
 
 
         // Draw & render
-        player.draw(&mut curr_frame);
+        //player.draw(&mut curr_frame); 
+        //invaders.draw(&mut curr_frame);
+        // below is an example of using generics with a trait
+        // create a vector of instances whose struct implements the trait
+        // loop through them and call the draw method
+        // the power and payoff comes from wrapping this around a function
+        // AND all you would need to do is add another instance whose struct
+        // implements the Drawable trait and so no other logic would need
+        // to be changed
+
+        let drawables: Vec<&dyn Drawable> = vec![&player, &invaders];
+
+        for drawable in drawables {
+            drawable.draw(&mut curr_frame);
+        }
 
         /* let _ is used instead of unwrap() (which would crash the program)
         becuase the gameloop will start before the "render" thread is spawned
