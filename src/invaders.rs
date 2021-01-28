@@ -1,6 +1,7 @@
 use rusty_time::timer::Timer;
 use crate::{ NUM_COLS, NUM_ROWS };
 use std::time::Duration;
+use std::cmp::max;
 
 pub struct Invader {
     pub x: usize,
@@ -65,6 +66,17 @@ impl Invaders {
                     self.direction = -1;
                     downwards = true;
                 }
+            }
+
+            if downwards {
+                // increase the speed of army each time moved downwards
+                let new_duration = max(self.move_timer.duration.as_millis() - 250, 250);
+                self.move_timer = Timer::from_millis(new_duration as u64);
+
+                
+
+            } else {
+
             }
             return true;
         }
