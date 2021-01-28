@@ -1,5 +1,5 @@
 use rusty_time::timer::Timer;
-use crate::{ NUM_COLS, NUM_ROWS };
+use crate::{ NUM_COLS, NUM_ROWS, frame::Drawable, frame::Frame };
 use std::time::Duration;
 use std::cmp::max;
 
@@ -87,5 +87,17 @@ impl Invaders {
         }
 
         false
+    }
+}
+
+impl Drawable for Invaders {
+    fn draw(&self, frame: &mut Frame) {
+        for invader in self.army.iter() {
+            frame[invader.x][invader.y] = if self.move_timer.time_left.as_secs_f32() / self.move_timer.duration.as_secs_f32() > 0.5 {
+                "x"
+            } else {
+                "+"
+            };
+        }
     }
 }
